@@ -23,8 +23,8 @@ async def health(request: Request) -> JSONResponse:
 
 
 # Register middleware
-from .auth import load_config
-from .middleware import ConfigMiddleware
+from intervals_icu_mcp.auth import load_config
+from intervals_icu_mcp.middleware import ConfigMiddleware
 
 mcp.add_middleware(ConfigMiddleware())
 
@@ -34,7 +34,7 @@ mcp.add_middleware(ConfigMiddleware())
 _DELETE_MODE = load_config().intervals_icu_delete_mode
 
 # Import and register tools
-from .tools.activities import (
+from intervals_icu_mcp.tools.activities import (
     bulk_create_manual_activities,
     delete_activity,
     download_activity_file,
@@ -49,7 +49,7 @@ from .tools.activities import (
     update_activity,
     update_activity_streams,
 )
-from .tools.activity_analysis import (
+from intervals_icu_mcp.tools.activity_analysis import (
     get_activity_intervals,
     get_activity_streams,
     get_best_efforts,
@@ -59,23 +59,23 @@ from .tools.activity_analysis import (
     get_power_histogram,
     search_intervals,
 )
-from .tools.activity_messages import add_activity_message, get_activity_messages
-from .tools.athlete import (
+from intervals_icu_mcp.tools.activity_messages import add_activity_message, get_activity_messages
+from intervals_icu_mcp.tools.athlete import (
     get_athlete_profile,
     get_fitness_chart,
     get_fitness_summary,
     list_athletes,
     update_athlete_notes,
 )
-from .tools.curves import get_hr_curves, get_pace_curves
-from .tools.custom_items import (
+from intervals_icu_mcp.tools.curves import get_hr_curves, get_pace_curves
+from intervals_icu_mcp.tools.custom_items import (
     create_custom_item,
     delete_custom_item,
     get_custom_item,
     get_custom_items,
     update_custom_item,
 )
-from .tools.event_management import (
+from intervals_icu_mcp.tools.event_management import (
     apply_training_plan,
     bulk_create_events,
     bulk_delete_events,
@@ -85,8 +85,8 @@ from .tools.event_management import (
     duplicate_events,
     update_event,
 )
-from .tools.events import get_calendar_events, get_event, get_upcoming_workouts
-from .tools.gear import (
+from intervals_icu_mcp.tools.events import get_calendar_events, get_event, get_upcoming_workouts
+from intervals_icu_mcp.tools.gear import (
     create_gear,
     create_gear_reminder,
     delete_gear,
@@ -94,16 +94,16 @@ from .tools.gear import (
     update_gear,
     update_gear_reminder,
 )
-from .tools.performance import get_power_curves
-from .tools.periodization import get_annual_training_plan
-from .tools.sport_settings import (
+from intervals_icu_mcp.tools.performance import get_power_curves
+from intervals_icu_mcp.tools.periodization import get_annual_training_plan
+from intervals_icu_mcp.tools.sport_settings import (
     create_sport_settings,
     delete_sport_settings,
     get_sport_settings,
     update_sport_settings,
 )
-from .tools.wellness import get_wellness_data, get_wellness_for_date, update_wellness
-from .tools.workout_library import (
+from intervals_icu_mcp.tools.wellness import get_wellness_data, get_wellness_for_date, update_wellness
+from intervals_icu_mcp.tools.workout_library import (
     bulk_create_workouts,
     create_workout,
     create_workout_folder,
@@ -771,10 +771,10 @@ if _DELETE_MODE == "full":
 @mcp.resource("intervals-icu://athlete/profile")
 async def athlete_profile_resource() -> str:
     """Complete athlete profile with fitness metrics and sport settings for context."""
-    from .auth import load_config
-    from .client import ICUAPIError, ICUClient
-    from .response_builder import ResponseBuilder
-    from .sport_settings_format import format_sport_settings_entry
+    from intervals_icu_mcp.auth import load_config
+    from intervals_icu_mcp.client import ICUAPIError, ICUClient
+    from intervals_icu_mcp.response_builder import ResponseBuilder
+    from intervals_icu_mcp.sport_settings_format import format_sport_settings_entry
 
     # Load config directly since resources don't go through middleware
     config = load_config()
@@ -824,7 +824,7 @@ async def workout_syntax_resource() -> str:
     Covers: durations, distances, power/HR/pace targets, zones, ramps, repeats,
     cadence, rest intervals, and text prompts for cycling, running, and swimming.
     """
-    from .workout_syntax import WORKOUT_SYNTAX_SPEC
+    from intervals_icu_mcp.workout_syntax import WORKOUT_SYNTAX_SPEC
 
     return WORKOUT_SYNTAX_SPEC
 
@@ -839,7 +839,7 @@ async def event_categories_resource() -> str:
     SET_FITNESS), the legacy aliases (RACE→RACE_A, GOAL→TARGET), the
     training_availability enum for ranged categories, and use-case guidance.
     """
-    from .event_categories import EVENT_CATEGORIES_SPEC
+    from intervals_icu_mcp.event_categories import EVENT_CATEGORIES_SPEC
 
     return EVENT_CATEGORIES_SPEC
 
@@ -855,7 +855,7 @@ async def custom_item_schemas_resource() -> str:
     chart/panel/zones/stream types should omit `content` and be configured in
     the Intervals.icu UI after creation.
     """
-    from .custom_item_schemas import CUSTOM_ITEM_SCHEMAS_SPEC
+    from intervals_icu_mcp.custom_item_schemas import CUSTOM_ITEM_SCHEMAS_SPEC
 
     return CUSTOM_ITEM_SCHEMAS_SPEC
 
