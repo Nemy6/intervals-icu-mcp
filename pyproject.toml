@@ -63,6 +63,7 @@ build-backend = "hatchling.build"
 
 [tool.hatch.version]
 source = "vcs"
+fallback-version = "4.3.2"
 
 [dependency-groups]
 dev = [
